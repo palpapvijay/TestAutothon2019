@@ -18,7 +18,7 @@ Funtion to Enter Valid Username in Gmail Login Page
 def enter_valid_ucsd_username(context):
     locator = configReader.readConfigData("Script", "USERNAME")
     Enter_Text(context,locator,"testhackpune","XPATH")
-    time.sleep(7)
+    time.sleep(8)
 
 
 """
