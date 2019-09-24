@@ -33,7 +33,7 @@ def before_all(context):
         path = "./Drivers/chromedriver.exe"
         context.driver = webdriver.Chrome(executable_path=path)
 
-    context.driver.get(configReader.readConfigData('Details', 'gmail IP'))
+    context.driver.get(configReader.readConfigData('Details', 'IP'))
     context.driver.maximize_window()
     context.driver.implicitly_wait(10)
     context.driver.maximize_window()
