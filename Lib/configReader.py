@@ -11,3 +11,10 @@ def fetchElementLocators(section,key):
     config.read("./Config/elements.cfg")
     return config.get(section,key)
 
+
+
+def readgmailelements(section,key):
+    config = configparser.ConfigParser()
+    config.read("./Config/gmailelements.cfg")
+    return config.get(section,key)
+
