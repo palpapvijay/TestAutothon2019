@@ -1,3 +1,4 @@
+@facebook
 # Created by vijayago at 26-09-2019
 Feature: TestAutothon problem solving scenario
 
