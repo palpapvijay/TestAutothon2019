@@ -1,13 +1,23 @@
 import moment
-#from PyScripts import gmail_infra_log_validator
+import logging
+#from PyScripts import ucsd_infra_log_validator
+from selenium.webdriver import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import allure
 from allure_commons.types import AttachmentType
 from utils import util as util
+import subprocess
+import requests
+from requests.auth import HTTPBasicAuth
+import json
+#from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from Lib import configReader
 import time
 from selenium.common.exceptions import TimeoutException
+import logging
+logger = logging.getLogger(__name__)
 
 __author__ = 'vijayago'
 
@@ -46,6 +56,37 @@ def gmail_screenshot_save(context,func_name):
         Snapshotfilename = func_name + "_" + currTime
         context.driver.save_screenshot("./Screenshots/" + Snapshotfilename + ".png")
         print("Snapshot Saved in Specified Path")
+
+def get_text(context, locator, Type):
+    try:
+        if Type == "ID":
+            logging.info("Getting the text in the given locator: " + locator)
+            element = context.driver.find_element_by_id(locator)
+            return element.text
+
+        elif Type == "NAME":
+            logging.info("Getting the text in the given locator: " + locator)
+            element = context.driver.find_element_by_name(locator)
+            return element.text
+
+        elif Type == "XPATH":
+            logging.info("Getting the text in the given locator: " + locator)
+            element = context.driver.find_element_by_xpath(locator)
+            return element.text
+
+        elif Type == "CSS":
+            logging.info("Getting the text in the given locator: " + locator)
+            element = context.driver.find_element_by_css_selector(locator)
+            return element.text
+
+        else:
+            logger.warning("Please specify Proper locator")
+            return False
+
+    except TimeoutException:
+        logger.error("Unable to find the speficied element:" + locator)
+        return False
+        raise
 
 """
 Function to wait until specified browser title
@@ -126,6 +167,11 @@ def Click_Button(context,locator,Type):
 
                 elif Type == "XPATH":
                         WebDriverWait(context.driver, 30).until(EC.element_to_be_clickable((By.XPATH, locator)))
+                        context.driver.find_element_by_xpath(locator).click()
+                        return True
+
+                elif Type == "CSS":
+                        WebDriverWait(context.driver, 30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, locator)))
                         context.driver.find_element_by_xpath(locator).click()
                         return True
                 else:
